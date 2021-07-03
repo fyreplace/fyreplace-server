@@ -16,10 +16,15 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-    - name: Install python dependencies
+    - name: Install tools
       run: |
         python -m pip install --upgrade pip setuptools wheel
+    - name: Install dependencies
+      run: |
         pip install -r requirements.txt
+    - name: Compile protos
+      run: |
+        make
     - name: Run tests
       run: |
         python manage.py test
