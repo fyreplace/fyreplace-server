@@ -208,9 +208,17 @@ GRPC_PORT = os.getenv("GRPC_PORT", "50051")
 
 GRPC_URL = f"{GRPC_HOST}:{GRPC_PORT}"
 
-SSL_PRIVATE_KEY = os.getenv("SSL_PRIVATE_KEY")
+if path := os.getenv("SSL_PRIVATE_KEY_PATH"):
+    with open(path, 'rb') as file:
+        SSL_PRIVATE_KEY = file.read()
+else:
+    SSL_PRIVATE_KEY = None
 
-SSL_CERTIFICATE_CHAIN = os.getenv("SSL_CERTIFICATE_CHAIN")
+if path := os.getenv("SSL_CERTIFICATE_PATH"):
+    with open(path, 'rb') as file:
+        SSL_CERTIFICATE_CHAIN = file.read()
+else:
+    SSL_CERTIFICATE_CHAIN = None
 
 # Celery
 
