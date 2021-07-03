@@ -3,7 +3,6 @@ from typing import List
 from celery import shared_task
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Model
 from django.db.transaction import atomic
 
 from posts.models import Comment, Post
@@ -12,7 +11,7 @@ from .models import CountUnit, Notification
 
 
 @shared_task
-def notify_post_subscribers(comment_id: str):
+def send_notifications(comment_id: str):
     comment = Comment.objects.select_related().get(id=comment_id)
 
     for user_id in comment.post.subscribers.exclude(id=comment.author_id).values_list(

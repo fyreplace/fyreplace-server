@@ -218,6 +218,14 @@ CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 
+CELERY_IGNORE_RESULT = True
+
+CELERY_QUEUES = {
+    "*.send_*": {"queue": "messaging"},
+    "*.remove_*": {"queue": "trash"},
+    "*.cleanup_*": {"queue": "trash"},
+}
+
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 CELERY_BEAT_SCHEDULE = {

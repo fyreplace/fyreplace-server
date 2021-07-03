@@ -10,7 +10,7 @@ from posts.signals import fetched
 from users.signals import post_ban
 
 from .models import CountUnit, Notification, delete_notifications_for
-from .tasks import notify_post_subscribers, remove_comments_from_notifications
+from .tasks import send_notifications, remove_comments_from_notifications
 
 
 @receiver(post_soft_delete)
@@ -26,7 +26,7 @@ def on_user_post_ban(instance: AbstractUser, **kwargs):
 @receiver(post_save, sender=Comment)
 def on_comment_post_save(instance: Comment, created: bool, **kwargs):
     if created:
-        notify_post_subscribers.delay(comment_id=str(instance.id))
+        send_notifications.delay(comment_id=str(instance.id))
 
 
 @receiver(fetched, sender=Comment)
